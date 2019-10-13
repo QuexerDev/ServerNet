@@ -35,7 +35,6 @@ public class BackendManager {
 
     public BackendPlayer getPlayer(String uuid) {
 
-        //TODO: Beim Join den Spieler ausm Cache removen!!!!!
 
         if (backendPlayerCache.containsKey(uuid)) {
             System.out.println("Get From META");

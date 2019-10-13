@@ -6,23 +6,28 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.quexer.api.quexerapi.api.LocationAPI;
 import me.quexer.api.quexerapi.api.NickAPI;
-import me.quexer.api.quexerapi.builder.inventory.InventoryHandler;
+import me.quexer.api.quexerapi.builder.ItemBuilder;
+import me.quexer.api.quexerapi.builder.inventory.GuiBuilder;
+import me.quexer.api.quexerapi.builder.inventory.GuiItem;
 import me.quexer.api.quexerapi.database.MongoManager;
 import me.quexer.api.quexerapi.event.EventManager;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 public final class QuexerAPI {
 
     private static Plugin instance;
-    private static InventoryHandler inventoryHandler;
     private static LocationAPI locationAPI;
     private static MongoManager mongoManager;
     private static EventManager eventManager;
@@ -36,7 +41,6 @@ public final class QuexerAPI {
     }
 
     private void init() {
-        inventoryHandler = new InventoryHandler();
         instance.getConfig().options().copyDefaults(true);
         instance.saveConfig();
         locationAPI = new LocationAPI();
@@ -79,16 +83,44 @@ public final class QuexerAPI {
         block.setMetadata(metadata, new FixedMetadataValue(getInstance(), value));
     }
 
+    //<editor-fold defaultstate="collapsed" desc="gui">
+    public GuiBuilder gui(int size) {
+        size = size <= 9 ? 9 : size <= 18 ? 18 : size <= 27 ? 27 : size <= 36 ? 36 : size <= 45 ? 45 : 54;
+        return new GuiBuilder(size, this);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="gui">
+    public GuiBuilder gui(Inventory inventory) {
+        return new GuiBuilder(inventory, this);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="guiItem">
+    public GuiItem guiItem(ItemStack item, Consumer<Player> callback) {
+        return new GuiItem(item, callback);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="item">
+    public ItemBuilder item(Material material) {
+        return new ItemBuilder(material);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="item">
+    public ItemBuilder item(Material material, short data) {
+        return new ItemBuilder(material, data);
+    }
+    //</editor-fold>
+
+
     public static Gson getGson() {
         return gson;
     }
 
     public static Plugin getInstance() {
         return instance;
-    }
-
-    public static InventoryHandler getInventoryHandler() {
-        return inventoryHandler;
     }
 
     public static LocationAPI getLocationAPI() {
