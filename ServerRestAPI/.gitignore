@@ -1,8 +1,3 @@
-*.xml
-*.iml
-*.yml
-*.class
-*.properties
 /node_modules
 /public/hot
 /public/storage

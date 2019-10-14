@@ -37,9 +37,9 @@ public final class ServerPerms extends Plugin implements Listener {
         prefix = "§6§lPerms §8➜ ";
         error = "§4§lError §8➜ ";
         noPerms = "§4§lPerms §8➜ §7Dazu hast du keine Rechte§8!";
+        gson = new Gson();
         groupManager = new GroupManager(this);
         groupPlayerManager = new GroupPlayerManager(this);
-        gson = new Gson();
         System.out.println("ENABELING");
         getProxy().getPluginManager().registerCommand(this, new GroupCMD(this));
         getProxy().getPluginManager().registerListener(this, new PlayerConnectListener(this));
@@ -97,4 +97,6 @@ public final class ServerPerms extends Plugin implements Listener {
     public GroupPlayerManager getGroupPlayerManager() {
         return groupPlayerManager;
     }
+
+
 }

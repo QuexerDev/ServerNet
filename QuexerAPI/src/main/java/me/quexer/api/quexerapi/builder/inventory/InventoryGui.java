@@ -75,7 +75,7 @@ public class InventoryGui {
             if (destroy || !event.getInventory().equals(this.inventory))
                 return;
             Bukkit.getScheduler().runTaskAsynchronously(plugin.getInstance(), () -> {
-                if (closeConsumer == null)
+                if (closeConsumer != null)
                     closeConsumer.accept(player);
             });
             if (!destroyOnClose)
